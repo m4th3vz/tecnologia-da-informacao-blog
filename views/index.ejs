@@ -1,0 +1,40 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Blog de Tecnologia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Arquivo CSS customizado -->
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Últimos Posts</h1>
+        <div class="row">
+            <% posts.slice().reverse().forEach(post => { %> <!-- Inverte a ordem dos posts -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <% if (post.imageURL) { %>
+                            <img class="card-img-top" src="<%= post.imageURL %>" alt="Imagem do Post">
+                        <% } else { %>
+                            <img class="card-img-top" src="/images/default.jpg" alt="Imagem padrão">
+                        <% } %>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= post.title %></h4>
+                            <p class="card-text"><%= post.content.replace(/<\/?[^>]+(>|$)/g, "").slice(0, 100) %>...</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/post/<%= post.id %>" class="btn btn-primary">Leia Mais</a>
+                            <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+        <a href="/create" class="btn btn-primary">Novo Post</a>
+    </div>
+</body>
+</html>

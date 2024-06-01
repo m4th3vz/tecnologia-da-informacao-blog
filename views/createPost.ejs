@@ -1,0 +1,40 @@
+<!-- views/createPost.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Arquivo CSS customizado -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Novo Post</h1>
+        <form action="/create" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Título do Post:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Imagem do Post:</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="content">Conteúdo do Post:</label>
+                <textarea class="form-control" id="editor" name="content"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar</button>
+        </form>
+        <a href="/" class="btn btn-secondary mt-2">Voltar para a lista de posts</a>
+    </div>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+</html>
