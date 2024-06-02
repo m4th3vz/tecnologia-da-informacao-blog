@@ -46,6 +46,11 @@ app.get('/create', (req, res) => {
     res.render('createPost');
 });
 
+// Rota para a página sobre
+app.get('/about', (req, res) => {
+    res.render('about');
+});
+
 // Rota para processar o formulário de criação de post
 app.post('/create', upload.single('image'), async (req, res) => {
     const { title, content } = req.body;
