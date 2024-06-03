@@ -30,11 +30,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// Constante para definir a quantidade de posts por página
+const POSTS_PER_PAGE = 9;
+
 // Rota para a página inicial (lista de posts)
 app.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Página atual, padrão é 1
+
     try {
-        const posts = await Post.findAll();
-        res.render('index', { posts });
+        const { count, rows: posts } = await Post.findAndCountAll({
+            limit: POSTS_PER_PAGE,
+            offset: (page - 1) * POSTS_PER_PAGE,
+            order: [['createdAt', 'DESC']] // Ordena por data de criação, mais recente primeiro
+        });
+
+        const totalPages = Math.ceil(count / POSTS_PER_PAGE);
+
+        res.render('index', { posts: posts.reverse(), page, totalPages }); // Inverte a ordem dos posts para exibir os mais recentes primeiro
     } catch (error) {
         console.error('Erro ao buscar posts:', error);
         res.status(500).send('Erro ao buscar posts.');
