@@ -53,6 +53,26 @@ app.get('/', async (req, res) => {
     }
 });
 
+// Rota para a página de edição (lista de posts)
+app.get('/editPost', async (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Página atual, padrão é 1
+
+    try {
+        const { count, rows: posts } = await Post.findAndCountAll({
+            limit: POSTS_PER_PAGE,
+            offset: (page - 1) * POSTS_PER_PAGE,
+            order: [['createdAt', 'DESC']] // Ordena por data de criação, mais recente primeiro
+        });
+
+        const totalPages = Math.ceil(count / POSTS_PER_PAGE);
+
+        res.render('editPost', { posts: posts.reverse(), page, totalPages }); // Inverte a ordem dos posts para exibir os mais recentes primeiro
+    } catch (error) {
+        console.error('Erro ao buscar posts:', error);
+        res.status(500).send('Erro ao buscar posts.');
+    }
+});
+
 // Rota para a página de criação de novo post
 app.get('/create', (req, res) => {
     res.render('createPost');
