@@ -1,4 +1,4 @@
-<!-- views/index.ejs -->
+<!-- views/managePost.ejs -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -120,6 +120,9 @@
                             <h5 class="card-title"><%= post.title %></h5>
                             <p class="card-text"><%= post.content.replace(/<\/?[^>]+(>|$)/g, "").slice(0, 100) %>...</p>
                             <a href="/post/<%= post.id %>" class="btn btn-primary" data-mdb-ripple-init>Leia Mais</a>
+                            <div class="btn-group">
+                              <a href="/edit/<%= post.id %>" class="btn btn-warning">Editar</a>
+                            </div>
                             <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
                                 <button type="submit" class="btn btn-danger">Deletar</button>
                             </form>
@@ -136,7 +139,7 @@
     <ul class="pagination pagination-circle justify-content-center">
       <% if (page > 1) { %>
         <li class="page-item">
-          <a class="page-link" href="/editPost/?page=<%= page - 1 %>">Anterior</a>
+          <a class="page-link" href="/managePost/?page=<%= page - 1 %>">Anterior</a>
         </li>
       <% } else { %>
         <li class="page-item disabled">
@@ -146,13 +149,13 @@
   
       <% for (let i = 1; i <= totalPages; i++) { %>
         <li class="page-item <%= i === page ? 'active' : '' %>">
-          <a class="page-link" href="/editPost/?page=<%= i %>"><%= i %></a>
+          <a class="page-link" href="/managePost/?page=<%= i %>"><%= i %></a>
         </li>
       <% } %>
   
       <% if (page < totalPages) { %>
         <li class="page-item">
-          <a class="page-link" href="/editPost/?page=<%= page + 1 %>">Próxima</a>
+          <a class="page-link" href="/managePost/?page=<%= page + 1 %>">Próxima</a>
         </li>
       <% } else { %>
         <li class="page-item disabled">

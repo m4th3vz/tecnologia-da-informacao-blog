@@ -54,7 +54,7 @@ app.get('/', async (req, res) => {
 });
 
 // Rota para a página de edição (lista de posts)
-app.get('/editPost', async (req, res) => {
+app.get('/managePost', async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Página atual, padrão é 1
 
     try {
@@ -66,7 +66,7 @@ app.get('/editPost', async (req, res) => {
 
         const totalPages = Math.ceil(count / POSTS_PER_PAGE);
 
-        res.render('editPost', { posts: posts.reverse(), page, totalPages }); // Inverte a ordem dos posts para exibir os mais recentes primeiro
+        res.render('managePost', { posts: posts.reverse(), page, totalPages }); // Inverte a ordem dos posts para exibir os mais recentes primeiro
     } catch (error) {
         console.error('Erro ao buscar posts:', error);
         res.status(500).send('Erro ao buscar posts.');
@@ -124,6 +124,40 @@ app.post('/delete/:id', async (req, res) => {
     } catch (error) {
         console.error('Erro ao deletar post:', error);
         res.status(500).send('Erro ao deletar post.');
+    }
+});
+
+// Rota para a página de edição de um post específico
+app.get('/edit/:id', async (req, res) => {
+    const postId = req.params.id;
+    try {
+        const post = await Post.findByPk(postId);
+        if (!post) {
+            return res.status(404).send('Post não encontrado.');
+        }
+        res.render('editSinglePost', { post });
+    } catch (error) {
+        console.error('Erro ao buscar post por ID:', error);
+        res.status(500).send('Erro ao buscar post por ID.');
+    }
+});
+
+// Rota para processar o formulário de edição de um post
+app.post('/edit/:id', async (req, res) => {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+    try {
+        const post = await Post.findByPk(postId);
+        if (!post) {
+            return res.status(404).send('Post não encontrado.');
+        }
+        post.title = title;
+        post.content = content;
+        await post.save();
+        res.status(200).redirect('/');
+    } catch (error) {
+        console.error('Erro ao editar post:', error);
+        res.status(500).send('Erro ao editar post.');
     }
 });
 
