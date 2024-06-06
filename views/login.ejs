@@ -1,4 +1,4 @@
-<!-- views/editSinglePost.ejs -->
+<!-- views/login.ejs -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -93,18 +93,17 @@
       </header>
 
       <div class="text-center">
-        <h1>Editar Post</h1>
-        <form action="/edit/<%= post.id %>" method="POST">
-            <label for="title">Título:</label><br>
-            <input type="text" id="title" name="title" value="<%= post.title %>" style="width: 90%;"><br>
-            
-            <label for="content">Conteúdo:</label><br>
-            <textarea id="content" name="content" rows="20" style="width: 90%; min-width: 300px;"><%= post.content %></textarea><br>
-            <!-- Estilos CSS inline para definir largura de 100% com largura mínima de 300px -->
-            
-            <button type="submit">Salvar Edições</button>
-        </form>
-    </div>    
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+    <label for="username">Usuário:</label>
+    <input type="text" id="username" name="username" required><br><br>
+    
+    <label for="password">Senha:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    
+    <button type="submit">Login</button>
+</form>
+    </div>
     
   <!--Footer-->
   <footer class="bg-light text-lg-start">

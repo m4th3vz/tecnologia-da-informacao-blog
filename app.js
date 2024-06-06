@@ -1,8 +1,8 @@
 // app.js
-
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const session = require('express-session'); // Adicionado para sessões
 const sequelize = require('./sequelize'); // Arquivo de configuração do Sequelize
 const Post = require('./models/Post'); // Modelo de dados do Post
 
@@ -18,6 +18,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware para receber JSON e dados de formulário
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Configuração da sessão
+app.use(session({
+    secret: 'AF#n2TPh2!8BeBp4=-6GTiG@RQPF6Ovpf5Yt0MZ2Sp-maAo_eZ', // Use uma chave forte
+    resave: false,
+    saveUninitialized: false
+}));
+
+// Middleware de autenticação
+const authenticate = (req, res, next) => {
+    if (req.session && req.session.userId) {
+        next(); // Usuário autenticado
+    } else {
+        res.redirect('/login'); // Redirecionar para a página de login se não autenticado
+    }
+};
 
 // Configurar o multer para armazenamento de arquivos
 const storage = multer.diskStorage({
@@ -53,8 +69,8 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Rota para a página de edição (lista de posts)
-app.get('/managePost', async (req, res) => {
+// Rota para a página de gerenciamento (protegida por autenticação)
+app.get('/managePost', authenticate, async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Página atual, padrão é 1
 
     try {
@@ -73,8 +89,8 @@ app.get('/managePost', async (req, res) => {
     }
 });
 
-// Rota para a página de criação de novo post
-app.get('/create', (req, res) => {
+// Rota para a página de criação de novo post (protegida por autenticação)
+app.get('/create', authenticate, (req, res) => {
     res.render('createPost');
 });
 
@@ -83,8 +99,8 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-// Rota para processar o formulário de criação de post
-app.post('/create', upload.single('image'), async (req, res) => {
+// Rota para processar o formulário de criação de post (protegida por autenticação)
+app.post('/create', authenticate, upload.single('image'), async (req, res) => {
     const { title, content } = req.body;
     const imageURL = req.file ? `/uploads/${req.file.filename}` : null;
     try {
@@ -111,8 +127,8 @@ app.get('/post/:id', async (req, res) => {
     }
 });
 
-// Rota para deletar um post
-app.post('/delete/:id', async (req, res) => {
+// Rota para deletar um post (protegida por autenticação)
+app.post('/delete/:id', authenticate, async (req, res) => {
     const postId = req.params.id;
     try {
         const post = await Post.findByPk(postId);
@@ -127,8 +143,8 @@ app.post('/delete/:id', async (req, res) => {
     }
 });
 
-// Rota para a página de edição de um post específico
-app.get('/edit/:id', async (req, res) => {
+// Rota para a página de edição de um post específico (protegida por autenticação)
+app.get('/edit/:id', authenticate, async (req, res) => {
     const postId = req.params.id;
     try {
         const post = await Post.findByPk(postId);
@@ -142,8 +158,8 @@ app.get('/edit/:id', async (req, res) => {
     }
 });
 
-// Rota para processar o formulário de edição de um post
-app.post('/edit/:id', async (req, res) => {
+// Rota para processar o formulário de edição de um post (protegida por autenticação)
+app.post('/edit/:id', authenticate, async (req, res) => {
     const postId = req.params.id;
     const { title, content } = req.body;
     try {
@@ -159,6 +175,33 @@ app.post('/edit/:id', async (req, res) => {
         console.error('Erro ao editar post:', error);
         res.status(500).send('Erro ao editar post.');
     }
+});
+
+// Rota de login
+app.get('/login', (req, res) => {
+    res.render('login'); // Renderiza a página de login
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Exemplo simples de autenticação (substitua pela sua lógica de autenticação)
+    if (username === 'admin' && password === 'illbeback+letv8gmFv1MVLa@$P2Goo') {
+        req.session.userId = username; // Estabelece a sessão
+        res.redirect('/managePost'); // Redireciona para a página de gerenciamento de posts
+    } else {
+        res.status(401).send('Credenciais inválidas');
+    }
+});
+
+// Rota de logout
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/'); // Redireciona para a página inicial após logout
+    });
 });
 
 // Iniciar o servidor e sincronizar o banco de dados
