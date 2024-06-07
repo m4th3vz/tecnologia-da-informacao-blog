@@ -5,6 +5,7 @@ const multer = require('multer');
 const session = require('express-session'); // Adicionado para sessões
 const sequelize = require('./sequelize'); // Arquivo de configuração do Sequelize
 const Post = require('./models/Post'); // Modelo de dados do Post
+const favicon = require('serve-favicon');
 
 const app = express();
 
@@ -34,6 +35,13 @@ const authenticate = (req, res, next) => {
         res.redirect('/login'); // Redirecionar para a página de login se não autenticado
     }
 };
+
+// Serve o favicon
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// Outras configurações e middlewares
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Configurar o multer para armazenamento de arquivos
 const storage = multer.diskStorage({
