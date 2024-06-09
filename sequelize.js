@@ -1,3 +1,4 @@
+// sequelize.js
 const { Sequelize } = require('sequelize');
 
 // Configuração do Sequelize

@@ -1,6 +1,6 @@
 // models/Post.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize'); // Ajuste o caminho conforme necessário
+const { DataTypes, Op } = require('sequelize');
+const sequelize = require('../sequelize'); // Caminho correto para o arquivo sequelize.js
 
 const Post = sequelize.define('Post', {
     title: {
@@ -17,4 +17,4 @@ const Post = sequelize.define('Post', {
     }
 });
 
-module.exports = Post;
+module.exports = { Post, Op };

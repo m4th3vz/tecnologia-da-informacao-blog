@@ -4,7 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const session = require('express-session'); // Adicionado para sessões
 const sequelize = require('./sequelize'); // Arquivo de configuração do Sequelize
-const Post = require('./models/Post'); // Modelo de dados do Post
+const { Post, Op } = require('./models/Post'); // Modelo de dados do Post
 const favicon = require('serve-favicon');
 
 const app = express();
@@ -210,6 +210,28 @@ app.get('/logout', (req, res) => {
         }
         res.redirect('/'); // Redireciona para a página inicial após logout
     });
+});
+
+// Rota para a pesquisa de posts
+app.get('/search', async (req, res) => {
+    const query = req.query.q; // O termo de pesquisa é passado como parâmetro de consulta
+
+    try {
+        const posts = await Post.findAll({
+            where: {
+                [Op.or]: [
+                    { title: { [Op.like]: `%${query}%` } },
+                    { content: { [Op.like]: `%${query}%` } }
+                ]
+            },
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.render('searchResults', { posts, query }); // Renderiza uma visão de resultados de pesquisa
+    } catch (error) {
+        console.error('Erro ao buscar posts:', error);
+        res.status(500).send('Erro ao buscar posts.');
+    }
 });
 
 // Iniciar o servidor e sincronizar o banco de dados

@@ -64,8 +64,7 @@ img {
       <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand" href="/">
-          <img src="/img/logo.png" height="35" alt="" loading="lazy"
-            style="margin-top: -3px;" />
+          <img src="/img/logo.png" height="35" alt="" loading="lazy" style="margin-top: -3px;" />
         </a>
         <button class="navbar-toggler" type="button" data-mdb-collapse-init data-mdb-target="#navbarExample01"
           aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,26 +79,30 @@ img {
               <a class="nav-link" href="/about">Sobre</a>
             </li>
           </ul>
-
-          <ul class="navbar-nav d-flex flex-row">
+    
+          <form class="d-flex" action="/search" method="get">
+            <input class="form-control me-2" type="search" name="q" placeholder="Pesquisar posts..." aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Pesquisar</button>
+          </form>
+    
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <!-- Icons -->
-            <li class="nav-item me-3 me-lg-0">
-              <a class="nav-link" href="#" rel="nofollow"
-                target="_blank">
+            <li class="nav-item">
+              <a class="nav-link" href="#" rel="nofollow" target="_blank">
                 <i class="fab fa-youtube"></i>
               </a>
             </li>
-            <li class="nav-item me-3 me-lg-0">
+            <li class="nav-item">
               <a class="nav-link" href="#" rel="nofollow" target="_blank">
                 <i class="fab fa-facebook-f"></i>
               </a>
             </li>
-            <li class="nav-item me-3 me-lg-0">
+            <li class="nav-item">
               <a class="nav-link" href="#" rel="nofollow" target="_blank">
                 <i class="fab fa-twitter"></i>
               </a>
             </li>
-            <li class="nav-item me-3 me-lg-0">
+            <li class="nav-item">
               <a class="nav-link" href="https://github.com/m4th3vz" rel="nofollow" target="_blank">
                 <i class="fab fa-github"></i>
               </a>
