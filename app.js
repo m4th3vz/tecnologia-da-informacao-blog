@@ -55,7 +55,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Constante para definir a quantidade de posts por página
-const POSTS_PER_PAGE = 9;
+const POSTS_PER_PAGE = 12;
 
 // Rota para a página inicial (lista de posts)
 app.get('/', async (req, res) => {

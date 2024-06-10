@@ -86,22 +86,6 @@
 
     <!-- Jumbotron -->
     <div id="intro" class="p-5 text-center bg-light">
-
-    <!--Logo-->
-  <style>
-    .image-container {
-      text-align: center;
-    }
-    .image-container img {
-      max-width: 100%;
-    }
-  </style>
-
-  <div class="image-container" style="margin-top:-1%; margin-bottom:1%">
-    <img width="250px" src="/img/logo.png" alt="Logo">
-  </div>
-    <!--Logo-->
-
       <h1 class="mb-3 h2">Tecnologia da Informação</h1>
       <p class="mb-3">Seu guia na era da informação</p>
     </div>
@@ -110,24 +94,34 @@
   <!--Main Navigation-->
 
   <!--Main layout-->
-<div class="text-center">
-    <h1>Resultados da Pesquisa para "<%= query %>"</h1>
-
-    <div style="margin-top:3%; margin-bottom:3%">
-    <ul>
-        <% posts.forEach(post => { %>
-            <li>
-                <h2><a href="/post/<%= post.id %>"><%= post.title %></a></h2>
-                <p><%= post.content.substring(0, 100) %>...</p>
-            </li>
-        <% }) %>
-    </ul>
-    </div>
-
+  <div class="text-center">
+    <h1 style="margin-bottom:3%">Resultados da Pesquisa</h1>
+  
+    <% if (posts.length > 0) { %>
+        <ul>
+            <% posts.forEach(post => { %>
+                <li>
+                    <h2><%= post.title %></h2>
+                    <% if (post.imageURL) { %>
+                        <a href="/post/<%= post.id %>">
+                          <img src="<%= post.imageURL %>" alt="Imagem associada ao texto" style="max-width: 100%; height: auto;">
+                        </a>
+                    <% } %>
+                    <p></p>
+                    <div style="margin-bottom:5%">
+                      <a href="/post/<%= post.id %>">Ver mais</a>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>Nenhum resultado encontrado.</p>
+    <% } %>
+  
     <div class="text-center" style="margin-bottom: 50px; margin-top: 50px;">
         <a href="/" class="btn btn-primary">Voltar para a lista de posts</a>
-      </div>
-</div>
+    </div>
+  </div>  
   <!--Main layout-->
 
   <!--Footer-->
