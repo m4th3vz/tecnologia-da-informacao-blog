@@ -4,4 +4,4 @@
 * Aplicação web desenvolvida com Node.js e Express.js para postagem de conteúdo sobre tecnologia.
 
 # Página Inicial!
-![Blog de Tecnologia](https://github.com/m4th3vz/tecnologia-da-informacao-blog/assets/109554163/f07602e5-a4c1-43cc-a6d9-0e062770b3ae)
+![Blog de Tecnologia](https://github.com/m4th3vz/tecnologia-da-informacao-blog/assets/109554163/974028af-5587-45f9-9f76-a3a8fde356d6)
