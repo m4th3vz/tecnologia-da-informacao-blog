@@ -46,12 +46,14 @@ const managePostRoutes = require('./routes/managePost'); // Importa as rotas par
 const postRoutes = require('./routes/post'); // Importa as rotas para posts
 const authRoutes = require('./routes/auth'); // Importa as rotas de autenticação
 const searchRoutes = require('./routes/search'); // Importa as rotas de busca
+const aboutRoutes = require('./routes/about'); // Importa as rotas de sobre
 
 app.use('/', indexRoutes); // Usa as rotas do index
 app.use('/managePost', managePostRoutes); // Usa as rotas de gerenciamento de posts
 app.use('/post', postRoutes); // Usa as rotas de posts
 app.use('/auth', authRoutes); // Usa as rotas de autenticação
 app.use('/search', searchRoutes); // Usa as rotas de busca
+app.use('/about', aboutRoutes); // Usa as rotas de sobre
 
 // Iniciar o servidor e sincronizar o banco de dados
 async function startServer() {
